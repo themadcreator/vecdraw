@@ -17,7 +17,7 @@ class HrTimer
 
   avg : (v) ->
     @_samples += 1
-    if @_samples % 1000 is 0 then console.log @_avg
+    if @_samples % 10 is 0 then console.log @_avg
     return @_avg = v * 1e-2 + @_avg * (1 - 1e-2)
 
 
