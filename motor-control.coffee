@@ -9,7 +9,7 @@ class HrTimer
   upTime : =>
     start = process.hrtime()
     process.nextTick =>
-      diff = process.hrtime(time)
+      diff = process.hrtime(start)
       nsec = diff[0] * 1e9 + diff[1]
       @avg(nsec)
       process.nextTick(@upTime)
@@ -17,7 +17,7 @@ class HrTimer
 
   avg : (v) ->
     @_samples += 1
-    if @_samples % 10 is 0 then console.log @_avg
+    console.log @_avg.toFixed(5), ' ', v
     return @_avg = v * 1e-2 + @_avg * (1 - 1e-2)
 
 
