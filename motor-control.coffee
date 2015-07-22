@@ -12,17 +12,12 @@ class HrTimer
       diff = process.hrtime(start)
       nsec = diff[0] * 1e9 + diff[1]
       @avg(nsec)
-      process.nextTick(@upTime)
-
+      setImmediate(@upTime)
 
   avg : (v) ->
     @_samples += 1
-    console.log @_avg.toFixed(5), ' ', v
+    console.log Math.round(@_avg), ' ', v
     return @_avg = v * 1e-2 + @_avg * (1 - 1e-2)
-
-
-
-
 
 class MotorControl
   constructor : (@motor) ->
