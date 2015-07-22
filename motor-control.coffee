@@ -16,7 +16,7 @@ class HrTimer
 
   avg : (v) ->
     @_samples += 1
-    console.log Math.round(@_avg * 1e-6) + ' ' + v
+    console.log (@_avg * 1e-6).toFixed(3)
     return @_avg = v * 1e-2 + @_avg * (1 - 1e-2)
 
 class MotorControl
