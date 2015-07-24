@@ -137,7 +137,7 @@ class MotorControl
     return if n <= 0
     @_pins.set(@motor.direction, @motor.invert isnt invert)
     @_pins.set(@motor.step, true)
-    setTimeout((=> @step(n - 1, invert)), @motor.delay ? 10)
+    setTimeout((=> @step(n - 1, invert)), @motor.delay ? 100)
 
 
 # q = new TimedTaskQueue()
