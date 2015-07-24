@@ -127,16 +127,20 @@ class MotorControl
     ])
 
   step : (n) ->
-    delay = @motor.delay
+    return if n <= 0
+
     # @_queue.delayAfterLast @motor.delay, =>
     @_pins.set(@motor.direction, true isnt @motor.invert)
     @_pins.set(@motor.step, true)
     @_pins.set(@motor.step, false)
+    setTimeout((=> @step(n - 1)), @motor.delay)
+
+
 
 
 # q = new TimedTaskQueue()
 # q.delay 3000, -> console.log '.'
 # q.delay 1000, -> console.log 'hello'
 # q.delay 2000, -> console.log 'world'
-
+new MotorControl(require('./pins').motors.left).step(10)
 
