@@ -130,12 +130,12 @@ class MotorControl
 
   step : (n) ->
     return if n <= 0
-
+    console.log 'step', n
     # @_queue.delayAfterLast @motor.delay, =>
     @_pins.set(@motor.direction, true isnt @motor.invert)
     @_pins.set(@motor.step, true)
     @_pins.set(@motor.step, false)
-    setTimeout((=> @step(n - 1)), @motor.delay)
+    setTimeout((=> @step(n - 1)), 200)
 
 
 
