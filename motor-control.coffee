@@ -105,6 +105,10 @@ class TimedTaskQueue
     setImmediate(@tick)
     return
 
+if process.getuid?() isnt 0
+  console.error 'Must be root to modify GPIO'
+  process.exit(1)
+
 fastgpio = require 'fastgpio'
 
 class Pins
@@ -130,19 +134,15 @@ class MotorControl
 
   step : (n) ->
     return if n <= 0
-    console.log 'step', n
-    # @_queue.delayAfterLast @motor.delay, =>
     @_pins.set(@motor.direction, true isnt @motor.invert)
     @_pins.set(@motor.step, true)
     @_pins.set(@motor.step, false)
-    setTimeout((=> @step(n - 1)), 200)
-
-
+    setTimeout((=> @step(n - 1)), @motor.delay)
 
 
 # q = new TimedTaskQueue()
 # q.delay 3000, -> console.log '.'
 # q.delay 1000, -> console.log 'hello'
 # q.delay 2000, -> console.log 'world'
-new MotorControl(require('./pins').motors.left).step(10)
+new MotorControl(require('./pins').motors.left).step(100)
 
