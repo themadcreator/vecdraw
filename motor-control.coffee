@@ -132,7 +132,7 @@ class MotorControl
       @motor.step
     ])
 
-  step : (n, invert) ->
+  step : (n, invert = false) ->
     return if n <= 0
     @_pins.set(@motor.direction, @motor.invert isnt invert)
     @_pins.set(@motor.step, true)
@@ -144,5 +144,5 @@ class MotorControl
 # q.delay 3000, -> console.log '.'
 # q.delay 1000, -> console.log 'hello'
 # q.delay 2000, -> console.log 'world'
-new MotorControl(require('./pins').motors.left).step(100, true)
+new MotorControl(require('./pins').motors.left).step(100, false)
 
