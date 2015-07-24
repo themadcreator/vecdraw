@@ -105,6 +105,8 @@ class TimedTaskQueue
     setImmediate(@tick)
     return
 
+fastgpio = require 'fastgpio'
+
 class Pins
   @init : (pins) ->
     for pin in pins
