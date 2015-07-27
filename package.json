@@ -14,6 +14,7 @@
     "fastgpio": "0.0.3",
     "jade": "^1.11.0",
     "sax": "^1.1.1",
-    "svg-path-parser": "^1.0.1"
+    "svg-path-parser": "^1.0.1",
+    "lodash": "^3.10.0"
   }
 }

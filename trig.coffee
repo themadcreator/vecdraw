@@ -166,17 +166,94 @@ class PathParser
           p[1] += lastPoint[1]
       return pts
 
+    context = {
+      startX   : 0
+      startY   : 0
+      currentX : 0
+      currentY : 0
+      curve    : null
+      curves   : []
+    }
 
     for cmd in pathParser(pathString)
-      pts = switch cmd
-        when 'moveto' then toPoints(cmd, ['x', 'y'])
-        when 'lineto' then toPoints(cmd, ['x', 'y'])
-        when 'curveto' then toPoints(cmd, [['x1', 'y2'],[]])
+      pts = switch cmd.code
+        when 'M'
+          context.startX = context.currentX = cmd.x
+          context.startY = context.currentY = cmd.y
+          if context.curve? then context.curves.push context.curve
+          context.curve = [[cmd.x, cmd.y]]
+        when 'C'
+          
+        # when 'lineto'  then toPoints(cmd, ['x', 'y'])
+        # when 'curveto' then toPoints(cmd, [['x1', 'y2'],[]])
+
+        l2c = function(x1, y1, x2, y2) {
+            return [x1, y1, x2, y2, x2, y2];
+        },
+        q2c = function(x1, y1, ax, ay, x2, y2) {
+            var _13 = 1 / 3,
+                _23 = 2 / 3;
+            return [
+            _13 * x1 + _23 * ax, _13 * y1 + _23 * ay, _13 * x2 + _23 * ax, _13 * y2 + _23 * ay, x2, y2];
+        },
+
+
+switch (path[0]) {
+                    case "M":
+                        d.X = path[1];
+                        d.Y = path[2];
+                        break;
+                    case "A":
+                      throw new Error('unsupported path command')
+                        #path = ["C"][concat](a2c[apply](0, [d.x, d.y][concat](path.slice(1))));
+                        break;
+                    case "S":
+                        if (pcom == "C" || pcom == "S") { // In S we have to take into account, if the previous command is C/S 
+                          nx = d.x * 2 - d.bx;
+                          ny = d.y * 2 - d.by; 
+                        }
+                       else { // or some else command
+                          nx = d.x;
+                          ny = d.y;
+                        }
+                        path = ["C", nx, ny][concat](path.slice(1));
+                        break;
+                    case "T":
+                        if (pcom == "Q" || pcom == "T") { // In T we have to take into account, if the previous command is Q/T
+                          d.qx = d.x * 2 - d.qx;
+                          d.qy = d.y * 2 - d.qy;
+                        }
+                        else {
+                          d.qx = d.x;
+                          d.qy = d.y;
+                        }
+                        path = ["C"][concat](q2c(d.x, d.y, d.qx, d.qy, path[1], path[2]));
+                        break;
+                    case "Q":
+                        d.qx = path[1];
+                        d.qy = path[2];
+                        path = ["C"][concat](q2c(d.x, d.y, path[1], path[2], path[3], path[4]));
+                        break;
+                    case "L":
+                        path = ["C"][concat](l2c(d.x, d.y, path[1], path[2]));
+                        break;
+                    case "H":
+                        path = ["C"][concat](l2c(d.x, d.y, path[1], d.y));
+                        break;
+                    case "V":
+                        path = ["C"][concat](l2c(d.x, d.y, d.x, path[1]));
+                        break;
+                    case "Z":
+                        path = ["C"][concat](l2c(d.x, d.y, d.X, d.Y));
+                        break;
+                    }
+                    return path;
+                },
+
+
 
 
 eachPath(fileContents, (elem) ->
   pathString = elem.attributes.d.value
-
-
-
+  console.log pathParser(pathString)
 )
