@@ -10,11 +10,13 @@
   "license": "MIT",
   "dependencies": {
     "adaptive-bezier-curve": "^1.0.3",
+    "adaptive-quadratic-curve": "^1.0.2",
     "bluebird": "^2.9.34",
     "fastgpio": "0.0.3",
     "jade": "^1.11.0",
+    "lodash": "^3.10.0",
     "sax": "^1.1.1",
     "svg-path-parser": "^1.0.1",
-    "lodash": "^3.10.0"
+    "svgo": "^0.5.3"
   }
 }
