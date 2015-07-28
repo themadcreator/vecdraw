@@ -1,22 +1,22 @@
 {
-  "name": "gpio-test",
-  "version": "0.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
+  "name"        : "vecdraw",
+  "version"     : "0.0.1",
+  "description" : "Tesselates and renders SVG paths in QuickDrawBot",
+  "main"        : "index.js",
+  "scripts"     : {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "themadcreator",
-  "license": "MIT",
-  "dependencies": {
-    "adaptive-bezier-curve": "^1.0.3",
-    "adaptive-quadratic-curve": "^1.0.2",
-    "bluebird": "^2.9.34",
-    "fastgpio": "0.0.3",
-    "jade": "^1.11.0",
-    "lodash": "^3.10.0",
-    "sax": "^1.1.1",
-    "svg-path-parser": "^1.0.1",
-    "svgo": "^0.5.3"
+  "author"       : "themadcreator",
+  "license"      : "MIT",
+  "dependencies" : {
+    "adaptive-bezier-curve"    : ">=1.x.x",
+    "adaptive-quadratic-curve" : ">=1.x.x",
+    "bluebird"                 : ">=2.x.x",
+    "fastgpio"                 : "0.0.3",
+    "svgo"                     : "0.5.3"
+  },
+  "devDependencies": {
+    "jade"   : ">=1.x.x",
+    "lodash" : ">=3.x.x"
   }
 }

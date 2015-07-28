@@ -7,17 +7,16 @@ convertPathData      = require 'svgo/plugins/convertPathData'
 convertShapeToPath   = require 'svgo/plugins/convertShapeToPath'
 removeHiddenElems    = require 'svgo/plugins/removeHiddenElems'
 convertCircleToPath  = require './convertCircleToPath'
-{Tesselator}         = require './tesselator'
+tesselatePath        = require './tesselatePath'
 
 tesselatorPlugin = (tesselationScale) ->
-  tesselator = new Tesselator(tesselationScale)
   paths = []
   return {
     type   : 'perItem'
     active : true
     fn     : (item) ->
       if item.isElem(['path']) and item.hasAttr('d')
-        paths.push tesselator.tesselateCurves pathUtils.relative2absolute(item.pathJS)
+        paths.push tesselatePath pathUtils.relative2absolute(item.pathJS), tesselationScale
     paths : paths
   }
 

@@ -1,9 +1,9 @@
 _         = require 'lodash'
 jade      = require 'jade'
-tesselate = require './src/tesselate'
+tesselate = require './src/tesselate/tesselate'
 
 class SvgLineRenderer
-  _toJadeLine : (line) ->
+  _toJadePath : (line) ->
     data = _.chain(line)
       .map((seg, i) ->
         coord = seg.join(',')
@@ -15,7 +15,7 @@ class SvgLineRenderer
 
   render : (paths, width = 800, height = 800) ->
     pathsString = _.chain(paths)
-      .map((path) => _.map(path, @_toJadeLine))
+      .map((path) => _.map(path, @_toJadePath))
       .flatten()
       .join('\n  ')
       .value()
