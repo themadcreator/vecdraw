@@ -1,27 +1,8 @@
-Promise              = require 'bluebird'
-svg2js               = require 'svgo/lib/svgo/svg2js'
-plugins              = require 'svgo/lib/svgo/plugins'
-pathUtils            = require 'svgo/plugins/_path'
-convertShapeToPath   = require 'svgo/plugins/convertShapeToPath'
-convertPathData      = require 'svgo/plugins/convertPathData'
-bezier               = require 'adaptive-bezier-curve'
-quadratic            = require 'adaptive-quadratic-curve'
-convertCirclesToPath = require './circle-to-path'
-arc2CubicCurves      = require './arc-to-curve'
+bezier           = require 'adaptive-bezier-curve'
+quadratic        = require 'adaptive-quadratic-curve'
+arcToCubicCurves = require './arcToCubicCurves'
 
 class Tesselator
-  @svgoPlugin : (tesselationScale) ->
-    tesselator = new Tesselator(tesselationScale)
-    paths = []
-    return {
-      type   : 'perItem'
-      active : true
-      fn     : (item) ->
-        if item.isElem(['path']) and item.hasAttr('d')
-          paths.push tesselator.tesselateCurves pathUtils.relative2absolute(item.pathJS)
-      paths : paths
-    }
-
   constructor : (@_tesselationScale = 1.0) ->
 
   tesselateCurves : (data) ->
@@ -94,7 +75,7 @@ class Tesselator
           endPoint      = [seg.data[0], seg.data[1]]
           tesselateQuadratic(startPoint, controlPoint1, endPoint)
         when 'A'
-          curves = arc2CubicCurves(
+          curves = arcToCubicCurves(
             segLast[0],  segLast[1]
             seg.data[0], seg.data[1]
             seg.data[2], seg.data[3], seg.data[4]
@@ -121,14 +102,4 @@ class Tesselator
 
     return lines
 
-module.exports = tesselate = (svgString, scale) ->
-  new Promise((res, rej) -> svg2js(svgString, res)).then((items) ->
-    tesselator = Tesselator.svgoPlugin(scale)
-    plugins(items, [[
-      convertShapeToPath
-      convertCirclesToPath
-      convertPathData
-      tesselator
-    ]])
-    return tesselator.paths
-  )
+module.exports = {Tesselator}

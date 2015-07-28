@@ -19,7 +19,6 @@ convertCircleToPath = (item) ->
   cy = +(item.attr('cy')?.value ? 0)
   r  = +(item.attr('r')?.value ? 0)
 
-  # TODO : run cleanupNumericValues to prevent NaNs?
   toPath(item, """
     M #{cx} #{cy}
     m #{-r}, 0
@@ -33,7 +32,6 @@ convertEllipseToPath = (item) ->
   rx = +(item.attr('rx')?.value ? 0)
   ry = +(item.attr('ry')?.value ? 0)
 
-  # TODO : run cleanupNumericValues to prevent NaNs?
   toPath(item, """
     M #{cx} #{cy}
     m #{-rx}, 0
