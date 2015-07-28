@@ -28,6 +28,7 @@ The length of the array will be 6*N where N is an integer >= 1.
 ###
 arcToCubicCurves = (x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, recursive) ->
   rangle = radians(angle)
+
   if not recursive
     [x1, y1] = rotate(x1, y1, -rangle)
     [x2, y2] = rotate(x2, y2, -rangle)
@@ -104,7 +105,7 @@ arcToCubicCurves = (x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, r
     xy           = rotate(curve[i], curve[i + 1], rangle)
     curve[i]     = xy[0]
     curve[i + 1] = xy[1]
-    i            += 2
+    i += 2
   return curve
 
 module.exports = arcToCubicCurves
