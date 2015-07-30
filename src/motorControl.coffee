@@ -143,10 +143,14 @@ class MotorControl
     setTimeout((=> @step(n - 1)), @motor.delay ? 100)
     return @
 
+return {
+  MotorControl
+}
+
 
 # q = new TimedTaskQueue()
 # q.delay 3000, -> console.log '.'
 # q.delay 1000, -> console.log 'hello'
 # q.delay 2000, -> console.log 'world'
-new MotorControl(require('./pins').motors.left).step(100, false)
+#new MotorControl(require('./pins').motors.left).step(100, false)
 
