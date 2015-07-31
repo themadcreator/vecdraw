@@ -41,7 +41,7 @@ class PriorityQueue
     @_prioritizer ?= ((v) -> v)
     @_heap = [null]
 
-  push : (val) -> 
+  push : (val) ->
     @bubble(@_heap.push(val) - 1)
     return
 
@@ -52,7 +52,7 @@ class PriorityQueue
     return undefined unless @_heap.length > 1
     if @_heap.length is 2
       return @_heap.pop()
-    else 
+    else
       top = @_heap[1]
       @_heap[1] = @_heap.pop()
       @sink(1)
@@ -105,22 +105,25 @@ class TimedTaskQueue
     setImmediate(@tick)
     return
 
-if process.getuid?() isnt 0
-  console.error 'Must be root to modify GPIO'
-  process.exit(1)
-
-fastgpio = require 'fastgpio'
 
 class Pins
   @init : (pins) ->
+    if process.getuid?() isnt 0
+      console.error 'Must be root to modify GPIO'
+      process.exit(1)
+
+    Pins.fastgpio = require 'fastgpio'
+
     for pin in pins
-      fastgpio.prepareGPIO(pin)
+      Pins.fastgpio.prepareGPIO(pin)
     return new Pins()
 
   set : (pin, value = true) ->
-    if value then fastgpio.set(pin)
-    else fastgpio.unset(pin)
+    if value then Pins.fastgpio.set(pin)
+    else Pins.fastgpio.unset(pin)
     return
+
+class ServoControl
 
 
 class MotorControl
@@ -145,6 +148,7 @@ class MotorControl
 
 return {
   MotorControl
+  ServoControl
 }
 
 
